@@ -1,10 +1,10 @@
 const path = require('path'),
-      webpack = require('webpack'),
-      CleanWebpackPlugin = require('clean-webpack-plugin'),
-      HtmlWebpackPlugin = require('html-webpack-plugin'),
-      ExtractTextPlugin = require('extract-text-webpack-plugin');
+  webpack = require('webpack'),
+  CleanWebpackPlugin = require('clean-webpack-plugin'),
+  HtmlWebpackPlugin = require('html-webpack-plugin'),
+  ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const extractPlugin = new ExtractTextPlugin({ filename: './assets/css/app.css', allChunks: true });
+const extractPlugin = new ExtractTextPlugin({ filename: './app.css', allChunks: true });
 
 const config = {
 
@@ -42,6 +42,11 @@ const config = {
               }
             },
             {
+              loader: 'resolve-url-loader',
+              options: {
+              }
+            },
+            {
               loader: 'sass-loader',
               options: {
                 sourceMap: true
@@ -52,7 +57,15 @@ const config = {
         })
       },
       // file-loader(for images)
-      { test: /\.(jpg|png|gif|svg)$/, use: [ { loader: 'file-loader', options: { name: '[name].[ext]', outputPath: './assets/media/' } } ] },
+      {
+        test: /\.(jpg|png|gif|svg)$/, use: [{
+          loader: 'url-loader', options: {
+            name: '[name].[ext]', 
+            limit: 10000,
+            outputPath: './assets/media/'
+          }
+        }]
+      },
       // file-loader(for fonts)
       { test: /\.(woff|woff2|eot|ttf|otf)$/, use: ['file-loader'] }
 

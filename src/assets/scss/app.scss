@@ -1,5 +1,8 @@
 @import '_color';
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+
 body {
-  background: $bgcolor;
-  color: $color;
+    background: $bgcolor;
+    color: $color;
+    background-image: url(../media/ball.jpg);
 }
