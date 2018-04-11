@@ -60,7 +60,7 @@ const config = {
       {
         test: /\.(jpg|png|gif|svg)$/, use: [{
           loader: 'url-loader', options: {
-            name: '[name].[ext]', 
+            name: '[name].[ext]',
             limit: 10000,
             outputPath: './assets/media/'
           }
@@ -79,7 +79,13 @@ const config = {
       template: 'index.html'
     }),
     // extract-text-webpack-plugin instance
-    extractPlugin
+    extractPlugin,
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: "jquery",
+      'window.$': 'jquery',
+      'window.jQuery': 'jquery'
+    })
   ],
 
   devServer: {

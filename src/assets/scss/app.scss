@@ -1,8 +1,12 @@
 @import '_color';
 @import '../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../node_modules/jquery-autocomplete/jquery.autocomplete.css';
 
 body {
     background: $bgcolor;
     color: $color;
     background-image: url(../media/ball.jpg);
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 50%;
 }
