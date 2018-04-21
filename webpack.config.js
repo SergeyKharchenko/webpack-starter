@@ -2,7 +2,8 @@ const path = require('path'),
   webpack = require('webpack'),
   CleanWebpackPlugin = require('clean-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  ExtractTextPlugin = require('extract-text-webpack-plugin');
+  ExtractTextPlugin = require('extract-text-webpack-plugin'),
+  SpriteLoaderPlugin = require('svg-sprite-loader/plugin');;
 
 const extractPlugin = new ExtractTextPlugin({ filename: './app.css', allChunks: true });
 
@@ -58,17 +59,30 @@ const config = {
       },
       // file-loader(for images)
       {
-        test: /\.(jpg|png|gif|svg)$/, use: [{
+        test: /\.(jpg|png|gif)$/, use: [{
           loader: 'url-loader', options: {
-            name: '[name].[ext]', 
+            name: '[name].[ext]',
             limit: 10000,
             outputPath: './assets/media/'
           }
         }]
       },
       // file-loader(for fonts)
-      { test: /\.(woff|woff2|eot|ttf|otf)$/, use: ['file-loader'] }
-
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/, use: ['file-loader']
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: { 
+              // extract: true 
+            }
+          },
+          'svgo-loader'
+        ]
+      }
     ]
   },
 
@@ -79,7 +93,8 @@ const config = {
       template: 'index.html'
     }),
     // extract-text-webpack-plugin instance
-    extractPlugin
+    extractPlugin,
+    // new SpriteLoaderPlugin()
   ],
 
   devServer: {
