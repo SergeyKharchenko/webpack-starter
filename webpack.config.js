@@ -73,14 +73,54 @@ const config = {
       },
       {
         test: /\.svg$/,
-        use: [
+
+        oneOf: [
           {
-            loader: 'svg-sprite-loader',
-            options: { 
-              // extract: true 
-            }
+            include: path.resolve(__dirname, 'src/assets/media/svg/images'),
+            use: [
+              {
+                loader: 'svg-sprite-loader',
+                options: {
+                  extract: true
+                }
+              },
+              {
+                loader: 'svgo-loader',
+                options: {
+                  plugins: [
+                    {
+                      removeAttrs: {
+                        attrs: '(fill|stroke)'
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           },
-          'svgo-loader'
+          {
+            include: path.resolve(__dirname, 'src/assets/media/svg/defs'),
+            use: [
+              {
+                loader: 'svg-sprite-loader'
+              },
+              {
+                loader: 'svgo-loader'
+              }
+            ]
+          },
+          {
+            resourceQuery: /node_modules/,
+            use: [
+              {
+                loader: 'file-loader',
+                options: {
+                  name: '[name].[ext]',
+                  outputPath: './svg/'
+                }
+              }
+            ]
+          },
         ]
       }
     ]
@@ -94,7 +134,7 @@ const config = {
     }),
     // extract-text-webpack-plugin instance
     extractPlugin,
-    // new SpriteLoaderPlugin()
+    new SpriteLoaderPlugin()
   ],
 
   devServer: {
