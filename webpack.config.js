@@ -2,14 +2,17 @@ const path = require('path'),
   webpack = require('webpack'),
   CleanWebpackPlugin = require('clean-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  ExtractTextPlugin = require('extract-text-webpack-plugin');
+  ExtractTextPlugin = require('extract-text-webpack-plugin'),
+  glob = require("glob");
+
+const rootPath = path.resolve(__dirname, 'src');
 
 const extractPlugin = new ExtractTextPlugin({ filename: './app.css', allChunks: true });
 
 const config = {
 
   // absolute path for project root
-  context: path.resolve(__dirname, 'src'),
+  context: rootPath,
 
   entry: {
     // relative path declaration
@@ -60,7 +63,7 @@ const config = {
       {
         test: /\.(jpg|png|gif|svg)$/, use: [{
           loader: 'url-loader', options: {
-            name: '[name].[ext]', 
+            name: '[name].[ext]',
             limit: 10000,
             outputPath: './assets/media/'
           }
@@ -75,12 +78,8 @@ const config = {
   plugins: [
     // cleaning up only 'dist' folder
     new CleanWebpackPlugin(['dist']),
-    new HtmlWebpackPlugin({
-      template: 'index.html'
-    }),
-    // extract-text-webpack-plugin instance
     extractPlugin
-  ],
+  ].concat(getHtmlPlugins()),
 
   devServer: {
     // static files served from here
@@ -95,5 +94,17 @@ const config = {
   devtool: 'inline-source-map'
 
 };
+
+function getHtmlPlugins() {
+  return glob
+    .sync(rootPath + "/*.html")
+    .map(filePath => {
+      const fileName = path.relative(rootPath, filePath);
+      return new HtmlWebpackPlugin({
+        filename: fileName,
+        template: fileName
+      })
+    })
+}
 
 module.exports = config;
