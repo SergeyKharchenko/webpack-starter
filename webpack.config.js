@@ -81,7 +81,8 @@ const config = {
               {
                 loader: 'svg-sprite-loader',
                 options: {
-                  extract: true
+                  extract: true,
+                  spriteFilename: 'svg/sprite.svg'
                 }
               },
               {
@@ -134,7 +135,9 @@ const config = {
     }),
     // extract-text-webpack-plugin instance
     extractPlugin,
-    new SpriteLoaderPlugin()
+    new SpriteLoaderPlugin({
+      // plainSprite: true
+    })
   ],
 
   devServer: {
