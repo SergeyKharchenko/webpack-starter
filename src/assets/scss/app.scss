@@ -1,8 +1,35 @@
 @import '_color';
 @import '../../../node_modules/bootstrap/scss/bootstrap';
+.red {
+    height: 500px;
+    background: red;
+    position: relative;
+}
 
-body {
-    background: $bgcolor;
-    color: $color;
-    background-image: url(../media/ball.jpg);
+.green {
+    height: 1000px;
+    background: green;
+}
+
+.blue {
+    height: 100px;
+    background: blue;
+    left: 0;
+    right: 0; 
+    top: 100px;
+    position: fixed;
+    
+    &.js-is-sticky {
+        // background-color: yellow;
+        // top: 0;
+    }
+    &.js-is-sticky--change {
+        // background-color: yellow;
+        // top: 0;
+    }
+    &.js-is-stuck {
+        // background-color: green;
+        // bottom: 0;
+        top: auto;
+    }
 }

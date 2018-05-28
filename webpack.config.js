@@ -78,7 +78,13 @@ const config = {
   plugins: [
     // cleaning up only 'dist' folder
     new CleanWebpackPlugin(['dist']),
-    extractPlugin
+    extractPlugin,
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: "jquery",
+      'window.$': 'jquery',
+      'window.jQuery': 'jquery'
+    })
   ].concat(getHtmlPlugins()),
 
   devServer: {
